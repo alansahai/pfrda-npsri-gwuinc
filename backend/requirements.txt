@@ -1,19 +1,19 @@
 # FastAPI and ASGI server
-fastapi==0.115.0
-uvicorn[standard]==0.32.0
-pydantic==2.10.0
-pydantic-settings==2.6.0
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
 
 # Scientific computing
-numpy==1.26.3
+numpy
 
 # CORS and middleware
-python-multipart==0.0.6
+python-multipart
 
 # Logging and monitoring
-python-json-logger==2.0.7
+python-json-logger
 
 # Development dependencies (optional)
-pytest==7.4.4
-pytest-asyncio==0.23.3
-httpx==0.26.0
+pytest
+pytest-asyncio
+httpx
