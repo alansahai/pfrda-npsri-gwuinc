@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Premium NPS Retirement Intelligence Engine - Enterprise-grade pension forecasting.">
+    <meta name="theme-color" content="#295b49">
+    <title>NPS Retirement Intelligence</title>
+
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.5/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-ring"></div>
+
+    <!-- Full-Screen Loader -->
+    <div id="loader" class="loader-overlay">
+        <div class="loader-content">
+            <div class="loader-logo">NRI</div>
+            <div class="loader-text">NPS Retirement Intelligence</div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">NPSRI</div>
+            <div class="navbar-links">
+                <a href="#hero">Home</a>
+                <a href="#dashboard">Dashboard</a>
+                <a href="#assumptions">Methodology</a>
+                <button id="languageToggle" class="language-toggle" title="Toggle Language">EN | TA</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Dark Background) -->
+    <section id="hero" class="hero-section">
+        <div class="hero-background">
+            <div class="gradient-orb gradient-orb-1"></div>
+            <div class="gradient-orb gradient-orb-2"></div>
+            <div class="grid-pattern"></div>
+        </div>
+
+        <div class="hero-content">
+            <h1 class="hero-title">Plan Your Retirement<br>With Precision</h1>
+            <p class="hero-subtitle">Advanced Monte Carlo simulation for confident pension forecasting</p>
+
+            <!-- Floating KPI Cards -->
+            <div class="kpi-cards-container">
+                <div class="kpi-card" data-kpi="corpus">
+                    <div class="kpi-icon">₹</div>
+                    <div class="kpi-label">Total Corpus</div>
+                    <div class="kpi-value">₹<span class="kpi-number">0</span></div>
+                </div>
+
+                <div class="kpi-card" data-kpi="monthly">
+                    <div class="kpi-icon">✓</div>
+                    <div class="kpi-label">Monthly Pension</div>
+                    <div class="kpi-value">₹<span class="kpi-number">0</span></div>
+                </div>
+
+                <div class="kpi-card" data-kpi="lumpsum">
+                    <div class="kpi-icon">◆</div>
+                    <div class="kpi-label">Lump Sum (if taken)</div>
+                    <div class="kpi-value">₹<span class="kpi-number">0</span></div>
+                </div>
+
+                <div class="kpi-card" data-kpi="years">
+                    <div class="kpi-icon">▲</div>
+                    <div class="kpi-label">Projection Period</div>
+                    <div class="kpi-value"><span class="kpi-number">0</span> years</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section (Light Background) -->
+    <section id="dashboard" class="dashboard-section">
+        <div class="container">
+            <!-- Pipeline Progress Indicator -->
+            <div class="pipeline-progress">
+                <div class="pipeline-step" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Enter Details</div>
+                </div>
+                <div class="pipeline-connector"></div>
+                <div class="pipeline-step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Calculate</div>
+                </div>
+                <div class="pipeline-connector"></div>
+                <div class="pipeline-step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">View Results</div>
+                </div>
+                <div class="pipeline-connector"></div>
+                <div class="pipeline-step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Compare</div>
+                </div>
+            </div>
+
+            <!-- Input Panel -->
+            <div class="panel-card reveal-on-scroll" data-pipeline-step="1">
+                <div class="panel-header">
+                    <h2>Configure Your Scenario</h2>
+                    <p>Adjust parameters to explore different retirement outcomes</p>
+                </div>
+
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="age-input">Current Age (years)</label>
+                        <input type="number" id="age-input" value="30" min="18" max="65" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="retirement-age-input">Retirement Age (years)</label>
+                        <input type="number" id="retirement-age-input" value="60" min="40" max="70"
+                            class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="risk-profile-select">Risk Profile</label>
+                        <select id="risk-profile-select" class="form-control">
+                            <option value="conservative">Conservative (Low volatility)</option>
+                            <option value="moderate" selected>Moderate (Balanced)</option>
+                            <option value="aggressive">Aggressive (High growth)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Slider for Contribution -->
+                <div class="slider-section">
+                    <div class="slider-header">
+                        <span>Monthly Contribution</span>
+                        <span class="slider-display">
+                            ₹<span id="slider-value">10,000</span>
+                            <span class="slider-delta" id="slider-delta"></span>
+                        </span>
+                    </div>
+                    <input type="range" id="contribution-slider" class="custom-slider" min="500" max="200000"
+                        value="10000" step="500">
+                    <div class="slider-range-label">
+                        <span>₹500</span>
+                        <span>₹2,00,000</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="button-group">
+                    <button class="btn btn-primary" id="calculate-btn">
+                        <span class="btn-icon">➤</span> Calculate Projection
+                    </button>
+                    <button class="btn btn-secondary" id="compare-btn">
+                        <span class="btn-icon">↔</span> Compare Scenarios
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chart Panel -->
+            <div class="panel-card reveal-on-scroll" data-pipeline-step="3">
+                <div class="panel-header">
+                    <h2>Retirement Projection</h2>
+                    <p>Monte Carlo simulation with 10,000 iterations</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="projection-chart"></canvas>
+                </div>
+                <div id="calculation-explanation" class="calculation-explanation" style="display: none;"></div>
+                <div class="button-group compare-after-results">
+                    <button class="btn btn-secondary" id="compare-after-calc-btn">
+                        <span class="btn-icon">↔</span> Compare Scenarios
+                    </button>
+                </div>
+            </div>
+
+            <!-- Scenarios Comparison Panel -->
+            <div class="panel-card reveal-on-scroll" data-pipeline-step="4">
+                <div class="panel-header">
+                    <h2>Scenario Comparison</h2>
+                    <p>Compare different contribution and age scenarios</p>
+                </div>
+                <div class="table-container">
+                    <table class="scenarios-table">
+                        <thead>
+                            <tr>
+                                <th>Scenario</th>
+                                <th>Monthly Contribution</th>
+                                <th>Retirement Age</th>
+                                <th>Total Corpus</th>
+                                <th>Monthly Pension</th>
+                                <th>Success Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scenarios-table-body">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Assumptions & Methodology Panel -->
+    <section id="assumptions" class="assumptions-section">
+        <div class="container">
+            <div class="panel-card">
+                <div class="panel-header">
+                    <h2>Assumptions & Methodology</h2>
+                    <p>Understand how we calculate your retirement projections</p>
+                </div>
+
+                <div class="accordion">
+                    <!-- Accordion Item 1 -->
+                    <div class="accordion-item">
+                        <button class="accordion-btn">
+                            <span>Investment Returns</span>
+                            <span class="accordion-icon">+</span>
+                        </button>
+                        <div class="accordion-content" style="display: none;">
+                            <div class="accordion-text">
+                                <p><strong>Conservative Strategy:</strong> Expected return of 8% annually with standard
+                                    deviation of 4%</p>
+                                <p><strong>Moderate Strategy:</strong> Expected return of 10% annually with standard
+                                    deviation of 6%</p>
+                                <p><strong>Aggressive Strategy:</strong> Expected return of 12% annually with standard
+                                    deviation of 8%</p>
+                                <p>Returns are calculated using geometric Brownian motion over 10,000 iterations for
+                                    robust statistical analysis.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accordion Item 2 -->
+                    <div class="accordion-item">
+                        <button class="accordion-btn">
+                            <span>Inflation Assumptions</span>
+                            <span class="accordion-icon">+</span>
+                        </button>
+                        <div class="accordion-content" style="display: none;">
+                            <div class="accordion-text">
+                                <p><strong>Baseline Inflation:</strong> 5.5% annually</p>
+                                <p>This represents the historical average inflation rate in India and affects:</p>
+                                <ul>
+                                    <li>Purchasing power of your monthly pension</li>
+                                    <li>Real returns on your investments</li>
+                                    <li>Sustainable withdrawal rates in retirement</li>
+                                </ul>
+                                <p>Adjustments are made annually to ensure adequate purchasing power throughout
+                                    retirement.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accordion Item 3 -->
+                    <div class="accordion-item">
+                        <button class="accordion-btn">
+                            <span>Drawdown Strategy</span>
+                            <span class="accordion-icon">+</span>
+                        </button>
+                        <div class="accordion-content" style="display: none;">
+                            <div class="accordion-text">
+                                <p><strong>Withdrawal Method:</strong> The 4% Rule with inflation adjustment</p>
+                                <p>Your corpus is divided into:</p>
+                                <ul>
+                                    <li><strong>40%</strong> taken as lump sum at retirement</li>
+                                    <li><strong>60%</strong> converted to annuity for monthly pension</li>
+                                </ul>
+                                <p>Monthly pension is inflation-adjusted annually to maintain purchasing power. Success
+                                    rate represents the probability of not depleting funds before age 100.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accordion Item 4 -->
+                    <div class="accordion-item">
+                        <button class="accordion-btn">
+                            <span>Regulatory & Tax Considerations</span>
+                            <span class="accordion-icon">+</span>
+                        </button>
+                        <div class="accordion-content" style="display: none;">
+                            <div class="accordion-text">
+                                <p><strong>NPS Regulations:</strong> Calculations follow PFRDA guidelines for National
+                                    Pension Scheme.</p>
+                                <p><strong>Tax Treatment (Current):</strong></p>
+                                <ul>
+                                    <li>Contributions: Up to ₹2.5L tax benefit under Section 80C</li>
+                                    <li>Investment returns: Tax-free within NPS account</li>
+                                    <li>Withdrawals: Varies based on exit strategy</li>
+                                </ul>
+                                <p><em>Important:</em> This is not financial advice. Consult a qualified financial
+                                    advisor and tax professional regarding your personal situation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="disclaimer-box">
+                    <strong>⚠️ Disclaimer:</strong> This tool provides projections based on historical assumptions.
+                    Actual results may vary significantly. Past performance does not guarantee future results. Always
+                    consult with a certified financial advisor before making retirement decisions.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Error Modal -->
+    <div id="error-modal" class="modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-box">
+            <button class="modal-close">×</button>
+            <div class="modal-header">⚠️ Error</div>
+            <p id="error-message">An error occurred. Please try again.</p>
+            <button class="btn btn-primary"
+                onclick="document.getElementById('error-modal').style.display = 'none';">Dismiss</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>NPS Retirement Intelligence</h4>
+                <p>Premium retirement planning powered by advanced analytics</p>
+            </div>
+            <div class="footer-section">
+                <h4>API Status</h4>
+                <p id="api-version">Version: Loading...</p>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <p>Built in compliance with PFRDA guidelines</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 NPS Retirement Intelligence. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="app.js"></script>
+</body>
+
+</html>
