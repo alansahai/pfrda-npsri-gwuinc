@@ -7,7 +7,7 @@
 // ==================== CONFIGURATION ====================
 
 const CONFIG = {
-    API_BASE_URL: 'http://localhost:8000',
+    API_BASE_URL: 'https://pfrda-npsri-gwuinc.onrender.com',
     PROJECTION_ENDPOINT: '/api/v1/projections/calculate',
     HEALTH_ENDPOINT: '/health',
     DEBOUNCE_DELAY: 500,
