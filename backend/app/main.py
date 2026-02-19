@@ -59,11 +59,15 @@ app.include_router(projections.router, prefix=settings.API_V1_PREFIX)
 
 if __name__ == "__main__":
     import uvicorn
+    import os
+    
+    # Use PORT from environment (Render, Railway, etc.) or settings default
+    port = int(os.getenv("PORT", settings.PORT))
     
     uvicorn.run(
         "app.main:app",
         host="0.0.0.0",
-        port=8000,
+        port=port,
         reload=settings.DEBUG,
         log_level="info"
     )
